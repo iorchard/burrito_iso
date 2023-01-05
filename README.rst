@@ -8,6 +8,8 @@ Burrito is the OpenStack on Kubernetes platform.
 pre-requisites
 ------------------
 
+I assume the user has a sudo privilege.
+
 Install the following rpm packages.::
 
     $ sudo dnf -y install createrepo_c modulemd-tools \

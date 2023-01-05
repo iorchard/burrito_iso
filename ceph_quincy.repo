@@ -1,0 +1,15 @@
+[ceph_quincy]
+async = 1
+baseurl = https://download.ceph.com/rpm-quincy/el8/$basearch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = Ceph Quincy $basearch repo
+priority = 2
+
+[ceph_quincy_noarch]
+async = 1
+baseurl = https://download.ceph.com/rpm-quincy/el8/noarch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = Ceph Quincy noarch repo
+priority = 2
