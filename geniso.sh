@@ -18,7 +18,7 @@ sed "s/%%LABEL%%/${LABEL}/g" grub.cfg.tpl > iso/EFI/BOOT/grub.cfg
 
 # ceph repo setup
 sudo rpm --import 'https://download.ceph.com/keys/release.asc'
-cp ceph_quincy.repo /etc/yum.repos.d/
+sudo cp ceph_quincy.repo /etc/yum.repos.d/
 
 mkdir -p iso/BaseOS/Packages
 xargs dnf --destdir ./iso/BaseOS/Packages download < burrito_rpm.txt
