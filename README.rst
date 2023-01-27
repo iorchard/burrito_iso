@@ -8,34 +8,31 @@ Burrito is the OpenStack on Kubernetes platform.
 pre-requisites
 ------------------
 
-I assume the user has a sudo privilege.
+I assume podman is installed on builder.
 
-Install the following rpm packages.::
+Install the following packages.::
 
-    $ sudo dnf -y install createrepo_c modulemd-tools \
-                genisoimage findutils python3 git
+    $ sudo dnf -y install podman
 
 Build an ISO
 --------------
 
-Download the latest Rocky Linux 8 minimal iso file.::
+Create an image.::
 
-    $ curl -LO https://download.rockylinux.org/pub/rocky/8/isos/x86_64/Rocky-8.7-x86_64-minimal.iso
+    $ podman build -t burrito-isobuilder .
 
-Mount it and copy the iso files to iso/ directory.::
+Run a container to build.::
 
-    $ sudo mount -o loop,ro Rocky-8.7-x86_64-minimal.iso /mnt
-    $ rsync -av --progress /mnt/ ./iso/ \
-        --exclude BaseOS --exclude Minimal
+    $ podman run -v output:/output --rm burrito-isobuilder
 
-Run geniso.sh script.::
+Or just execute run.sh to build an image and run a container to build.::
 
-    $ ./geniso.sh
+    $ ./run.sh
 
-If it runs okay, there will be burrito-<version>.iso and SHA512SUM files.::
+There will be burrito-<version>.iso and SHA512SUM files in your volume.::
 
+    $ cd $(podman volume inspect --format "{{.Mountpoint}}" output)
     $ ls burrito*.iso SHA512SUM 
     burrito-8.7.iso  SHA512SUM
 
 Use the iso file to install Burrito OS.
-
