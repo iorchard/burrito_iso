@@ -23,16 +23,16 @@ Create an image.::
 
 Run a container to build.::
 
-    $ podman run -v output:/output --rm burrito-isobuilder
+    $ mkdir output
+    $ podman run -v $(pwd)/output:/output --rm burrito-isobuilder
 
 Or just execute run.sh to build an image and run a container to build.::
 
     $ ./run.sh
 
-There will be burrito-<version>.iso and SHA512SUM files in your volume.::
+There will be burrito-<version>.iso and SHA512SUM files in output directory.::
 
-    $ cd $(podman volume inspect --format "{{.Mountpoint}}" output)
-    $ ls burrito*.iso SHA512SUM 
+    $ ls output
     burrito-8.7.iso  SHA512SUM
 
 Use the iso file to install Burrito OS.

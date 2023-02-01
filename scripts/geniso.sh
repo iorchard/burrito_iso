@@ -7,10 +7,18 @@ LABEL="Burrito-Rocky-${VER/./-}-x86_64"
 ISOFILE="burrito-${VER}.iso"
 ISOURL="https://download.rockylinux.org/pub/rocky/${VER:0:1}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
-export ISOURL BASE_ISOFILE
+REG_VER="2.8.1"
+REG_URL="https://github.com/distribution/distribution/releases/download/v${REG_VER}/registry_${REG_VER}_linux_amd64.tar.gz"
+export ISOURL BASE_ISOFILE REG_URL
 
 # run prepare script - install packages, download and extract base iso file.
 $(dirname $0)/prepare.sh
+
+# run get_files.sh script - download binary tarball files
+$(dirname $0)/get_files.sh
+
+# run archive_images.sh script - download container images
+$(dirname $0)/archive_images.sh
 
 # overwrite .discinfo and .treeinfo
 cp ${WORKSPACE}/files/.{disc,tree}info ${WORKSPACE}/iso/
@@ -48,15 +56,16 @@ xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download < \
 createrepo -g comps_base.xml ${WORKSPACE}/iso/BaseOS/
 
 # create iso file
-genisoimage -o ${OUTPUT_DIR}/${ISOFILE} \
-            -b isolinux/isolinux.bin \
-            -c isolinux/boot.cat \
-            --no-emul-boot \
-            --boot-load-size 4 \
-            --boot-info-table \
-            --eltorito-alt-boot \
-            -e images/efiboot.img \
-            --no-emul-boot \
-            -J -R -V "${LABEL}" ${WORKSPACE}/iso
+genisoimage -boot-load-size 4 \
+            -boot-info-table \
+            -eltorito-boot isolinux/isolinux.bin \
+            -eltorito-catalog isolinux/boot.cat \
+            -efi-boot images/efiboot.img \
+            -no-emul-boot \
+            -J -R -V "${LABEL}" \
+            -o ${OUTPUT_DIR}/${ISOFILE} \
+            ${WORKSPACE}/iso
 
-sha512sum ${OUTPUT_DIR}/${ISOFILE} > ${OUTPUT_DIR}/SHA512SUM
+pushd ${OUTPUT_DIR}
+    sha512sum ${ISOFILE} > SHA512SUM
+popd

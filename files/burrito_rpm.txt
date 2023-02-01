@@ -323,6 +323,7 @@ lmdb-libs.x86_64
 lm_sensors-libs.x86_64
 logrotate.x86_64
 lshw.x86_64
+lsof.x86_64
 lsscsi.x86_64
 lttng-ust.x86_64
 lua-libs.x86_64
