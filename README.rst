@@ -17,16 +17,7 @@ Install the following packages.::
 Build an ISO
 --------------
 
-Create an image.::
-
-    $ podman build -t burrito-isobuilder .
-
-Run a container to build.::
-
-    $ mkdir output
-    $ podman run -v $(pwd)/output:/output --rm burrito-isobuilder
-
-Or just execute run.sh to build an image and run a container to build.::
+Execute run.sh to build an image and run a container to build.::
 
     $ ./run.sh
 

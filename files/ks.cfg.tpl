@@ -40,8 +40,8 @@ fi
 %end
 firstboot --disabled
 reboot --eject
-rootpw --iscrypted $6$PgLmbg5Q$RpRvnBJRANKdJW2Zr1qUbGJ0.s3XFYFTldN4ycL.eZ7wQHpaeeha4IGq8SjKStC/z5L/S2x21dzh3oN8dFMQU.
-user --name=clex --iscrypted --password $6$PgLmbg5Q$RpRvnBJRANKdJW2Zr1qUbGJ0.s3XFYFTldN4ycL.eZ7wQHpaeeha4IGq8SjKStC/z5L/S2x21dzh3oN8dFMQU.
+rootpw --iscrypted %%ROOTPW_ENC%%
+user --name=clex --iscrypted --password %%USERPW_ENC%%
 
 %packages --instLangs=en_US.utf8
 openssh-clients

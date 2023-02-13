@@ -7,11 +7,16 @@ FILES_LIST=${FILES_LIST:-"${WORKSPACE}/files/files.list"}
 
 # download files
 if [ ! -f "${FILES_LIST}" ]; then
-    echo "${FILES_LIST} should exist."
-    exit 1
+  echo "${FILES_LIST} should exist."
+  exit 1
 fi
 
 rm -rf "${OFFLINE_FILES_DIR}"
 mkdir -p "${OFFLINE_FILES_DIR}"
 
 wget -x -P "${OFFLINE_FILES_DIR}" -i "${FILES_LIST}"
+
+pushd ${WORKSPACE}/iso
+  curl -LO https://github.com/iorchard/burrito/releases/download/${SRC_VER}/burrito-${SRC_VER}.tar.gz
+popd
+
