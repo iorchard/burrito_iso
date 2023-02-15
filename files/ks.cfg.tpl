@@ -41,7 +41,7 @@ fi
 firstboot --disabled
 reboot --eject
 rootpw --iscrypted %%ROOTPW_ENC%%
-user --name=clex --iscrypted --password %%USERPW_ENC%%
+user --name=%%UNAME%% --iscrypted --password %%USERPW_ENC%%
 
 %packages --instLangs=en_US.utf8
 openssh-clients
