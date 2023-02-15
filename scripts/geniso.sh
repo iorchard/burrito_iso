@@ -45,7 +45,7 @@ sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/isolinux.cfg.tpl > \
 sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/grub.cfg.tpl > \
     ${WORKSPACE}/iso/EFI/BOOT/grub.cfg
 # create ks.cfg with custom root and clex password
-sed "s#%%ROOTPW_ENC%%#${ROOTPW_ENC}#g;s#%%USERPW_ENC%%#${USERPW_ENC}#g;" \
+sed "s#%%ROOTPW_ENC%%#${ROOTPW_ENC}#g;s#%%UNAME%%#${UNAME}#g;s#%%USERPW_ENC%%#${USERPW_ENC}#g;" \
   ${WORKSPACE}/files/ks.cfg.tpl > ${WORKSPACE}/iso/ks.cfg
 
 # ceph repo setup
@@ -63,14 +63,16 @@ xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download < \
 createrepo -g comps_base.xml ${WORKSPACE}/iso/BaseOS/
 
 # create iso file
-genisoimage -boot-load-size 4 \
-            -boot-info-table \
-            -eltorito-boot isolinux/isolinux.bin \
-            -eltorito-catalog isolinux/boot.cat \
-            -efi-boot images/efiboot.img \
-            -no-emul-boot \
+genisoimage -o ${OUTPUT_DIR}/${ISOFILE} \
+            -b isolinux/isolinux.bin \
+            -c isolinux/boot.cat \
+            --no-emul-boot \
+            --boot-load-size 4 \
+            --boot-info-table \
+            --eltorito-alt-boot \
+            -e images/efiboot.img \
+            --no-emul-boot \
             -J -R -V "${LABEL}" \
-            -o ${OUTPUT_DIR}/${ISOFILE} \
             ${WORKSPACE}/iso
 
 pushd ${OUTPUT_DIR}
