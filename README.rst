@@ -19,11 +19,13 @@ Build an ISO
 
 Execute run.sh to build an image and run a container to build.::
 
-    $ ./run.sh
+    $ ./run.sh <rocky_linux_verion> <burrito_source_version>
+    ex) ./run.sh 8.7 1.0.0
 
-There will be burrito-<version>.iso and SHA512SUM files in output directory.::
+There will be burrito-<burrito_source_version>-<rocky_linux_version>.iso and 
+SHA512SUM files in output directory.::
 
     $ ls output
-    burrito-8.7.iso  SHA512SUM
+    burrito-1.0.0-alpha.1_8.7.iso  SHA512SUM
 
 Use the iso file to install Burrito OS.

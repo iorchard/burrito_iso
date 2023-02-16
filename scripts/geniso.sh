@@ -5,7 +5,7 @@ set -exo pipefail
 VER=${1:-8.7}
 SRC_VER=${2:-1.0.0}
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
-ISOFILE="burrito-${SRC_VER}-${VER}.iso"
+ISOFILE="burrito-${SRC_VER}_${VER}.iso"
 ISOURL="https://download.rockylinux.org/pub/rocky/${VER:0:1}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
 REG_VER="2.8.1"
