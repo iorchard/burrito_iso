@@ -1,8 +1,8 @@
 #!/bin/bash
-VER=${1:-8.7}
-SRC_VER=${2:-1.0.0}
+ENVFILE=".env"
+mkdir -p output
 
-function _preflight() {
+function preflight() {
   ROOTPW_ENC=$(python3 -c 'import crypt,getpass;pw=getpass.getpass("root password: ");print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit(1))')
   if [ -z ${ROOTPW_ENC} ]; then
     echo "root password is not matched."
@@ -15,17 +15,22 @@ function _preflight() {
     exit 1
   fi
   
-  cat <<EOF > enc_pass
-root: ${ROOTPW_ENC} 
-clex: ${USERPW_ENC}
+  cat <<EOF > ${ENVFILE}
+ROOTPW_ENC='${ROOTPW_ENC}'
+UNAME='${UNAME}'
+USERPW_ENC='${USERPW_ENC}'
 EOF
-  
-  export ROOTPW_ENC UNAME USERPW_ENC 
-  mkdir -p output
 }
 
 function build() {
-  _preflight
+  if [[ ! -f ${ENVFILE} ]]; then
+    preflight 
+  fi
+  . ${ENVFILE}
+
+  VER=${1:-8.7}
+  SRC_VER=${2:-1.0.0}
+
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run --privileged -v $(pwd)/output:/output --rm \
     --env="ROOTPW_ENC=${ROOTPW_ENC}" \
@@ -35,7 +40,10 @@ function build() {
 }
 
 function run() {
-  _preflight
+  if [[ ! -f ${ENVFILE} ]]; then
+    preflight 
+  fi
+  . ${ENVFILE}
   podman run -it --privileged -v $(pwd)/output:/output --rm \
     --env="ROOTPW_ENC=${ROOTPW_ENC}" \
     --env="UNAME=${UNAME}" \
@@ -44,9 +52,10 @@ function run() {
     docker.io/jijisa/burrito-isobuilder
 }
 function USAGE() {
-  echo "USAGE: $0 [-h|-b|-r] [options]" 1>&2
+  echo "USAGE: $0 [-h|-b|-p|-r] [options]" 1>&2
   echo
   echo " -h --help                   Display this help message."
+  echo " -p --password               Set up root and user password."
   echo " -b --build [options]        Build burrito iso."
   echo " -r --run [options]          Run a container for building burrito iso"
   echo "                             and go into the container."
@@ -73,7 +82,11 @@ do
       exit 0
       ;;
     -b | --build)
-      build
+      build "$@"
+      break
+      ;;
+    -p | --password)
+      preflight
       break
       ;;
     -r | --run)
