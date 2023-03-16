@@ -44,6 +44,7 @@ function run() {
     preflight 
   fi
   . ${ENVFILE}
+  podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run -it --privileged -v $(pwd)/output:/output --rm \
     --env="ROOTPW_ENC=${ROOTPW_ENC}" \
     --env="UNAME=${UNAME}" \
