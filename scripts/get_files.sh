@@ -20,3 +20,8 @@ pushd ${WORKSPACE}/iso
   curl -LO https://github.com/iorchard/burrito/releases/download/${SRC_VER}/burrito-${SRC_VER}.tar.gz
 popd
 
+# extract scripts/images.txt and mv it to files/burrito_images.txt
+pushd ${WORKSPACE}/files
+  tar --strip-components=2 -xvzf ${WORKSPACE}/iso/burrito-${SRC_VER}.tar.gz \
+    burrito-${SRC_VER}/scripts/images.txt
+popd

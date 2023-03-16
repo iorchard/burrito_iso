@@ -11,7 +11,7 @@ ${WORKSPACE}/registry serve ${WORKSPACE}/files/config.yml &>/dev/null &
 echo $! > /tmp/registry.pid
 
 # Push images to registry
-for src in $(cat ${WORKSPACE}/files/burrito_images.txt)
+for src in $(cat ${WORKSPACE}/files/images.txt)
 do
   repo=${src#*/}
   dst="localhost:5000/${repo}"
