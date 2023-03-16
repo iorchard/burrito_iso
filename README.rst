@@ -19,8 +19,8 @@ Build an ISO
 
 Execute run.sh to build an image and run a container to build.::
 
-    $ ./run.sh <rocky_linux_verion> <burrito_source_version>
-    ex) ./run.sh 8.7 1.0.0
+    $ ./run.sh --build <rocky_linux_verion> <burrito_source_version>
+    ex) ./run.sh --build 8.7 1.0.0
 
 There will be burrito-<burrito_source_version>-<rocky_linux_version>.iso and 
 SHA512SUM files in output directory.::
