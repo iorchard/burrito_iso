@@ -591,6 +591,7 @@ util-linux.x86_64
 vim-minimal.x86_64
 virt-what.x86_64
 volume_key-libs.x86_64
+wget.x86_64
 which.x86_64
 xclip.x86_64
 xfsprogs.x86_64
