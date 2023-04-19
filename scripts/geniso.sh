@@ -4,13 +4,14 @@ set -exo pipefail
 
 VER=${1:-8.7}
 SRC_VER=${2:-1.0.0}
+REL_NAME="${SRC_VER//\//_}"
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
-ISOFILE="burrito-${SRC_VER}_${VER}.iso"
+ISOFILE="burrito-${REL_NAME}_${VER}.iso"
 ISOURL="https://download.rockylinux.org/pub/rocky/${VER:0:1}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
 REG_VER="2.8.1"
 REG_URL="https://github.com/distribution/distribution/releases/download/v${REG_VER}/registry_${REG_VER}_linux_amd64.tar.gz"
-export ISOURL BASE_ISOFILE REG_URL SRC_VER
+export ISOURL BASE_ISOFILE REG_URL SRC_VER REL_NAME
 
 # run prepare script - install packages, download and extract base iso file.
 $(dirname $0)/prepare.sh
