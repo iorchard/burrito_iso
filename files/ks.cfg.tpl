@@ -56,6 +56,7 @@ git
 python3-cryptography
 sshpass
 lsof
+wget
 %end
 
 %post
