@@ -160,6 +160,7 @@ irqbalance.x86_64
 jansson.x86_64
 json-c.x86_64
 json-glib.x86_64
+jq.x86_64
 kbd-legacy.noarch
 kbd-misc.noarch
 kbd.x86_64
