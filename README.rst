@@ -10,7 +10,7 @@ pre-requisites
 
 I assume podman is installed on builder.
 
-Install the following packages.::
+Install the package.::
 
     $ sudo dnf -y install podman
 
@@ -26,6 +26,6 @@ There will be burrito-<burrito_source_version>-<rocky_linux_version>.iso and
 SHA512SUM files in output directory.::
 
     $ ls output
-    burrito-1.0.0-alpha.1_8.7.iso  SHA512SUM
+    burrito-1.0.0_8.7.iso  SHA512SUM
 
 Use the iso file to install Burrito OS.
