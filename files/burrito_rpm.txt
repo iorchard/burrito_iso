@@ -158,6 +158,7 @@ iputils.x86_64
 ipvsadm.x86_64
 irqbalance.x86_64
 jansson.x86_64
+jq.x86_64
 json-c.x86_64
 json-glib.x86_64
 kbd-legacy.noarch
@@ -234,6 +235,7 @@ libkcapi.x86_64
 libksba.x86_64
 libldb.x86_64
 libmaxminddb.x86_64
+libmetalink.x86_64
 libmnl.x86_64
 libmodulemd.x86_64
 libmount.x86_64
@@ -364,6 +366,7 @@ nss-sysinit.x86_64
 nss-util.x86_64
 nss.x86_64
 numactl-libs.x86_64
+oniguruma.x86_64
 openldap.x86_64
 openssh-clients.x86_64
 openssh-server.x86_64
