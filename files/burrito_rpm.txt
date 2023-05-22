@@ -523,6 +523,7 @@ python3-six.noarch
 python3-slip-dbus.noarch
 python3-slip.noarch
 python3-syspurpose.x86_64
+python3-systemd.x86_64
 python3-tempora.noarch
 python3-trustme.noarch
 python3-unbound.x86_64
