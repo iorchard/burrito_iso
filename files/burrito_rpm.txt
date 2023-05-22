@@ -381,6 +381,7 @@ pam.x86_64
 parted.x86_64
 pass.noarch
 passwd.x86_64
+patch.x86_64
 pciutils-libs.x86_64
 pcre2.x86_64
 pcre.x86_64

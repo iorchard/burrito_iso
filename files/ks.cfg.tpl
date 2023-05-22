@@ -58,6 +58,7 @@ sshpass
 lsof
 wget
 jq
+patch
 %end
 
 %post
