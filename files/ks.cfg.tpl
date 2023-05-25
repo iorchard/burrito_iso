@@ -12,7 +12,7 @@ keyboard us
 firewall --disabled
 selinux --disabled
 timezone Asia/Seoul --isUtc --nontp
-bootloader --timeout=5 --location=mbr --append="net.ifnames=0 biosdevname=0"
+bootloader --timeout=5 --location=mbr
 skipx
 zerombr
 # Partition scheme split into 2 mode - legacy BIOS vs. UEFI
