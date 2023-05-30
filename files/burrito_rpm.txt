@@ -382,6 +382,7 @@ parted.x86_64
 pass.noarch
 passwd.x86_64
 patch.x86_64
+pciutils.x86_64
 pciutils-libs.x86_64
 pcre2.x86_64
 pcre.x86_64
@@ -538,6 +539,7 @@ qrencode-libs.x86_64
 qrencode.x86_64
 quota-nls.noarch
 quota.x86_64
+rdma-core.x86_64
 readline.x86_64
 rocky-gpg-keys.noarch
 rocky-release.noarch
