@@ -15,8 +15,14 @@ chmod +x ${CURRENT_DIR}/git-archive-all.sh
 git clone --recursive -b ${SRC_VER} https://github.com/iorchard/burrito.git \
   ${DIST_DIR}/burrito
 pushd ${DIST_DIR}/burrito
-  ${CURRENT_DIR}/git-archive-all.sh --prefix burrito-${REL_NAME}/ -- - | \
-    gzip -9 > ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz
+  echo ${SRC_VER} \($(git rev-parse HEAD)\) > VERSION
+  ${CURRENT_DIR}/git-archive-all.sh --prefix burrito-${REL_NAME}/ \
+    ${WORKSPACE}/iso/burrito-${REL_NAME}.tar
+  # add VERSION to tarball
+  tar --xform="s#^#burrito-${REL_NAME}/#" -rf \
+	  ${WORKSPACE}/iso/burrito-${REL_NAME}.tar VERSION
+  # compress
+  gzip -9f ${WORKSPACE}/iso/burrito-${REL_NAME}.tar
 popd
 
 pushd ${WORKSPACE}/iso
