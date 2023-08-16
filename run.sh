@@ -1,8 +1,28 @@
 #!/bin/bash
+set -e 
+
+# If you build the iso that includes powerflex rpm packages,
+# set this variable to the url that you can download powerflex package tarball.
+# The tarball should not have the subdirectries.
+PFX_PKG_URL="http://192.168.151.110:8000/burrito/powerflex_pkgs.tar.gz"
+# environment variable file
 ENVFILE=".env"
+
 mkdir -p output
 
-function preflight() {
+function check_env() {
+  if [ -z "${ROOTPW_ENC}" -o \
+	   -z "${UNAME}" -o \
+	   -z "${USERPW_ENC}" -o \
+	   -z "${INCLUDE_NETAPP}" -o \
+	   -z "${INCLUDE_PFX}" \
+	 ]; then
+	echo "The environment file is wrong. ./run.sh -e again."
+	exit 1
+  fi
+}
+
+function setup_env() {
   ROOTPW_ENC=$(python3 -c 'import crypt,getpass;pw=getpass.getpass("root password: ");print(crypt.crypt(pw) if (pw==getpass.getpass("Confirm: ")) else exit(1))')
   if [ -z ${ROOTPW_ENC} ]; then
     echo "root password is not matched."
@@ -14,58 +34,56 @@ function preflight() {
     echo "${UNAME} user password is not matched."
     exit 1
   fi
-  
   cat <<EOF > ${ENVFILE}
-ROOTPW_ENC='${ROOTPW_ENC}'
-UNAME='${UNAME}'
-USERPW_ENC='${USERPW_ENC}'
+ROOTPW_ENC=${ROOTPW_ENC}
+UNAME=${UNAME}
+USERPW_ENC=${USERPW_ENC}
+INCLUDE_NETAPP=1
+INCLUDE_PFX=1
+PFX_PKG_URL=${PFX_PKG_URL}
 EOF
 }
 
 function build() {
   if [[ ! -f ${ENVFILE} ]]; then
-    preflight 
+    setup_env
   fi
   . ${ENVFILE}
-
-  VER=${1:-8.7}
+  check_env
+  VER=${1:-8.8}
   SRC_VER=${2:-1.0.0}
 
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run --privileged -v $(pwd)/output:/output --rm \
-    --env="ROOTPW_ENC=${ROOTPW_ENC}" \
-    --env="UNAME=${UNAME}" \
-    --env="USERPW_ENC=${USERPW_ENC}" \
+	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
     docker.io/jijisa/burrito-isobuilder ${VER} ${SRC_VER}
 }
 
 function run() {
   if [[ ! -f ${ENVFILE} ]]; then
-    preflight 
+    setup_env
   fi
   . ${ENVFILE}
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run -it --privileged -v $(pwd)/output:/output --rm \
-    --env="ROOTPW_ENC=${ROOTPW_ENC}" \
-    --env="UNAME=${UNAME}" \
-    --env="USERPW_ENC=${USERPW_ENC}" \
+	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
     --entrypoint=/bin/bash \
     docker.io/jijisa/burrito-isobuilder
 }
 function USAGE() {
-  echo "USAGE: $0 [-h|-b|-p|-r] [options]" 1>&2
+  echo "USAGE: $0 [-h|-e|-b|-r] [options]" 1>&2
   echo
   echo " -h --help                   Display this help message."
-  echo " -p --password               Set up root and user password."
+  echo " -e --env                    Set up an environment file."
   echo " -b --build [options]        Build burrito iso."
-  echo " -r --run [options]          Run a container for building burrito iso"
-  echo "                             and go into the container."
+  echo " -r --run [options]          Run and go into the container."
+  echo
   echo "Options"
   echo "-------"
-  echo "Rocky Linux version          Default: 8.7"
+  echo "Rocky Linux version          Default: 8.8"
   echo "Burrito source version       Default: 1.0.0"
   echo
-  echo "ex) $0 --build 8.7 1.0.1"
+  echo "ex) $0 --build 8.8 1.0.1"
   echo
 }
 if [ $# -lt 1 ]; then
@@ -86,8 +104,8 @@ do
       build "$@"
       break
       ;;
-    -p | --password)
-      preflight
+    -e | --env)
+      setup_env
       break
       ;;
     -r | --run)

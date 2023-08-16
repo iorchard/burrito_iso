@@ -1,0 +1,14 @@
+java-1.8.0-openjdk-headless.x86_64
+avahi-libs.x86_64
+copy-jdk-configs.noarch
+cups-libs.x86_64
+javapackages-filesystem.noarch
+lksctp-tools.x86_64
+lua.x86_64
+nspr.x86_64
+nss.x86_64
+nss-softokn.x86_64
+nss-softokn-freebl.x86_64
+nss-sysinit.x86_64
+nss-util.x86_64
+tzdata-java.noarch

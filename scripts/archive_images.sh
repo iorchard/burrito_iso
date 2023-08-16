@@ -11,8 +11,11 @@ ${WORKSPACE}/registry serve ${WORKSPACE}/files/config.yml &>/dev/null &
 echo $! > /tmp/registry.pid
 
 # Push images to registry
-for src in $(cat ${WORKSPACE}/files/images.txt)
-do
+pushd ${WORKSPACE}/files
+  IMAGES=$(cat images.txt $([ "${INCLUDE_NETAPP}" = 1 ] && echo -n netapp_images.txt || :) $([ "${INCLUDE_PFX}" = 1 ] && echo -n pfx_images.txt || :))
+popd
+
+for src in ${IMAGES}; do
   repo=${src#*/}
   dst="localhost:5000/${repo}"
   echo "== Pull ${src}"

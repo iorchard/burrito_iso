@@ -11,7 +11,7 @@ dnf -y install ${COMMON_DEPS[@]} ${ISO_DEPS[@]} \
     ${IMAGE_DEPS[@]} ${FILE_DEPS[@]}
 
 python3.9 -m pip install ansible
-curl -Lo ${BASE_ISOFILE} ${ISOURL}
+curl --retry 3 -Lo ${BASE_ISOFILE} ${ISOURL}
 mkdir -p ${WORKSPACE}/iso
 
 7z x ${BASE_ISOFILE} \

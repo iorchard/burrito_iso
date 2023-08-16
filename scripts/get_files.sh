@@ -8,25 +8,13 @@ DIST_DIR="${CURRENT_DIR}/dist"
 REL_NAME="${SRC_VER//\//_}"
 
 mkdir -p ${DIST_DIR}
-curl -sLo ${CURRENT_DIR}/git-archive-all.sh \
-  https://raw.githubusercontent.com/fabacab/git-archive-all.sh/master/git-archive-all.sh
-chmod +x ${CURRENT_DIR}/git-archive-all.sh
 
 git clone --recursive -b ${SRC_VER} https://github.com/iorchard/burrito.git \
   ${DIST_DIR}/burrito
 pushd ${DIST_DIR}/burrito
-  echo ${SRC_VER} \($(git rev-parse HEAD)\) > VERSION
-  ${CURRENT_DIR}/git-archive-all.sh --prefix burrito-${REL_NAME}/ \
-    ${WORKSPACE}/iso/burrito-${REL_NAME}.tar
-  # add VERSION to tarball
-  tar --xform="s#^#burrito-${REL_NAME}/#" -rf \
-	  ${WORKSPACE}/iso/burrito-${REL_NAME}.tar VERSION
-  # compress
-  gzip -9f ${WORKSPACE}/iso/burrito-${REL_NAME}.tar
-popd
-
-pushd ${WORKSPACE}/iso
-  #curl -LO https://github.com/iorchard/burrito/releases/download/${SRC_VER}/burrito-${SRC_VER}.tar.gz
+  ./scripts/create_tarball.sh ${SRC_VER}
+  mv ./scripts/dist/burrito-${REL_NAME}.tar.gz \
+    ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz
 popd
 
 # extract scripts/{images,bin}.txt to files/
@@ -35,6 +23,16 @@ pushd ${WORKSPACE}/files
     burrito-${REL_NAME}/scripts/images.txt
   tar --strip-components=2 -xvzf ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz \
     burrito-${REL_NAME}/scripts/bin.txt
+  tar --strip-components=1 -xvzf ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz \
+    burrito-${REL_NAME}/requirements.txt
+  if [ "${INCLUDE_NETAPP}" = 1 ]; then
+    tar --strip-components=2 -xvzf ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz \
+      burrito-${REL_NAME}/scripts/netapp_images.txt
+  fi
+  if [ "${INCLUDE_PFX}" = 1 ]; then
+    tar --strip-components=2 -xvzf ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz \
+      burrito-${REL_NAME}/scripts/pfx_images.txt
+  fi
 popd
 # download files
 if [ ! -f "${FILES_LIST}" ]; then
