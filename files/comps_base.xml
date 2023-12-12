@@ -3516,7 +3516,6 @@
       <groupid>core</groupid>
     </grouplist>
     <optionlist>
-      <groupid>guest-agents</groupid>
       <groupid>standard</groupid>
     </optionlist>
   </environment>
@@ -3583,7 +3582,6 @@
       <groupid>core</groupid>
     </grouplist>
     <optionlist>
-      <groupid>guest-agents</groupid>
       <groupid>standard</groupid>
     </optionlist>
   </environment>
@@ -3617,11 +3615,8 @@
     </grouplist>
     <optionlist>
       <groupid>debugging</groupid>
-      <groupid>dns-server</groupid>
       <groupid>file-server</groupid>
-      <groupid>ftp-server</groupid>
       <groupid>gnome-desktop</groupid>
-      <groupid>guest-agents</groupid>
       <groupid>hardware-monitoring</groupid>
       <groupid>infiniband</groupid>
       <groupid>mail-server</groupid>
@@ -3630,8 +3625,6 @@
       <groupid>performance</groupid>
       <groupid>remote-system-management</groupid>
       <groupid>smb-server</groupid>
-      <groupid>virtualization-hypervisor</groupid>
-      <groupid>web-server</groupid>
     </optionlist>
   </environment>
 </comps>

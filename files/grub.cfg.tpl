@@ -17,7 +17,7 @@ insmod ext2
 set timeout=10
 ### END /etc/grub.d/00_header ###
 
-search --no-floppy --set=root -l 'Rocky-8-7-x86_64-dvd'
+search --no-floppy --set=root -l 'Rocky-8-9-x86_64-dvd'
 
 ### BEGIN /etc/grub.d/10_linux ###
 menuentry 'Install Burrito Rocky Linux 8' --class fedora --class gnu-linux --class gnu --class os {

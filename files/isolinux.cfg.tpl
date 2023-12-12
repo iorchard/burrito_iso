@@ -59,7 +59,7 @@ menu separator # insert an empty line
 menu separator # insert an empty line
 
 label linux
-  menu label ^Install Burrito (Rocky Linux 8.7)
+  menu label ^Install Burrito (Rocky Linux 8.9)
   kernel vmlinuz
   append initrd=initrd.img inst.ks=cdrom:/ks.cfg inst.stage2=hd:LABEL=%%LABEL%% quiet
 
