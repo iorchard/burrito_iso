@@ -1,4 +1,4 @@
-ARG         FROM=docker.io/rockylinux/rockylinux:8.8
+ARG         FROM=docker.io/rockylinux/rockylinux:8.9
 FROM        ${FROM}
 
 ENV         WORKSPACE="/opt/burrito_build"
