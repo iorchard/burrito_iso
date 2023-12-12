@@ -2,8 +2,8 @@
 
 set -exo pipefail
 
-VER=${1:-8.8}
-SRC_VER=${2:-1.0.0}
+VER=${1:-8.9}
+SRC_VER=${2:-1.3.1}
 REL_NAME="${SRC_VER//\//_}"
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
 ISOFILE="burrito-${REL_NAME}_${VER}.iso"

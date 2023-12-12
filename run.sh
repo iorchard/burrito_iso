@@ -5,6 +5,10 @@ set -e
 # set this variable to the url that you can download powerflex package tarball.
 # The tarball should not have the subdirectries.
 PFX_PKG_URL="http://192.168.151.110:8000/burrito/powerflex_pkgs.tar.gz"
+
+# Hitachi hspc-operator image tarball
+HITACHI_IMAGE_URL="http://192.168.151.110:8000/burrito/hitachi-csi-images.tar"
+
 # environment variable file
 ENVFILE=".env"
 
@@ -16,6 +20,7 @@ function check_env() {
 	   -z "${USERPW_ENC}" -o \
 	   -z "${INCLUDE_NETAPP}" -o \
 	   -z "${INCLUDE_PFX}" \
+	   -z "${INCLUDE_HITACHI}" \
 	 ]; then
 	echo "The environment file is wrong. ./run.sh -e again."
 	exit 1
@@ -41,6 +46,8 @@ USERPW_ENC=${USERPW_ENC}
 INCLUDE_NETAPP=1
 INCLUDE_PFX=1
 PFX_PKG_URL=${PFX_PKG_URL}
+INCLUDE_HITACHI=1
+HITACHI_IMAGE_URL=${HITACHI_IMAGE_URL}
 EOF
 }
 
