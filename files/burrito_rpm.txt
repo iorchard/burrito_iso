@@ -577,6 +577,7 @@ sssd-kcm.x86_64
 sssd-nfs-idmap.x86_64
 strace.x86_64
 sudo.x86_64
+sysfsutils.x86_64
 systemd-libs.x86_64
 systemd-pam.x86_64
 systemd-udev.x86_64
