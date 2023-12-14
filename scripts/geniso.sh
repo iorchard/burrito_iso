@@ -94,6 +94,7 @@ genisoimage -o ${OUTPUT_DIR}/${ISOFILE} \
             --no-emul-boot \
             -J -R -V "${LABEL}" \
             ${WORKSPACE}/iso
+isohybrid --uefi ${OUTPUT_DIR}/${ISOFILE}
 
 pushd ${OUTPUT_DIR}
     sha512sum ${ISOFILE} > SHA512SUM
