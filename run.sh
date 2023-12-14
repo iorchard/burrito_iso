@@ -19,7 +19,7 @@ function check_env() {
 	   -z "${UNAME}" -o \
 	   -z "${USERPW_ENC}" -o \
 	   -z "${INCLUDE_NETAPP}" -o \
-	   -z "${INCLUDE_PFX}" \
+	   -z "${INCLUDE_PFX}" -o \
 	   -z "${INCLUDE_HITACHI}" \
 	 ]; then
 	echo "The environment file is wrong. ./run.sh -e again."
