@@ -55,7 +55,7 @@ sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/isolinux.cfg.tpl > \
 sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/grub.cfg.tpl > \
     ${WORKSPACE}/iso/EFI/BOOT/grub.cfg
 # create ks.cfg with custom root and clex password
-sed "s#%%ROOTPW_ENC%%#${ROOTPW_ENC}#g;s#%%UNAME%%#${UNAME}#g;s#%%USERPW_ENC%%#${USERPW_ENC}#g;" \
+sed "s#%%ROOTPW_ENC%%#${ROOTPW_ENC}#g;s#%%UNAME%%#${UNAME}#g;s#%%USERPW_ENC%%#${USERPW_ENC}#g;s#%%LABEL%%#${LABEL}#g" \
   ${WORKSPACE}/files/ks.cfg.tpl > ${WORKSPACE}/iso/ks.cfg
 # create .env file in iso.
 echo -e "INCLUDE_NETAPP=${INCLUDE_NETAPP}\nINCLUDE_PFX=${INCLUDE_PFX}" > \
