@@ -50,5 +50,3 @@ Copy the iso file to the device.::
 
 Unplug the USB stick.
 
-
-    $ 
