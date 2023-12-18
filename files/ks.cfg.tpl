@@ -4,14 +4,14 @@
 text
 # network install
 #url --url="http://download.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/"
-# cdrom install
-cdrom
+# usb install
+harddrive --partition=/dev/disk/by-label/%%LABEL%% --dir=/
 #lang ko_KR.UTF-8
 lang en_US --addsupport=ko_KR
 keyboard us
 firewall --disabled
 selinux --disabled
-timezone Asia/Seoul --isUtc --nontp
+timezone Asia/Seoul --utc --nontp
 bootloader --timeout=5 --location=mbr
 skipx
 zerombr

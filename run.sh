@@ -57,8 +57,8 @@ function build() {
   fi
   . ${ENVFILE}
   check_env
-  VER=${1:-8.8}
-  SRC_VER=${2:-1.0.0}
+  VER=${1:-8.9}
+  SRC_VER=${2:-1.3.1}
 
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run --privileged -v $(pwd)/output:/output --rm \
@@ -87,10 +87,10 @@ function USAGE() {
   echo
   echo "Options"
   echo "-------"
-  echo "Rocky Linux version          Default: 8.8"
-  echo "Burrito source version       Default: 1.0.0"
+  echo "Rocky Linux version          Default: 8.9"
+  echo "Burrito source version       Default: 1.3.1"
   echo
-  echo "ex) $0 --build 8.8 1.0.1"
+  echo "ex) $0 --build 8.9 1.3.1"
   echo
 }
 if [ $# -lt 1 ]; then

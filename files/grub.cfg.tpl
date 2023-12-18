@@ -17,10 +17,10 @@ insmod ext2
 set timeout=10
 ### END /etc/grub.d/00_header ###
 
-search --no-floppy --set=root -l 'Rocky-8-9-x86_64-dvd'
+search --no-floppy --set=root -l '%%LABEL%%'
 
 ### BEGIN /etc/grub.d/10_linux ###
 menuentry 'Install Burrito Rocky Linux 8' --class fedora --class gnu-linux --class gnu --class os {
-	linuxefi /images/pxeboot/vmlinuz inst.ks=cdrom:/ks.cfg inst.stage2=hd:LABEL=%%LABEL%% quiet
+	linuxefi /images/pxeboot/vmlinuz inst.ks=hd:LABEL=%%LABEL%% inst.stage2=hd:LABEL=%%LABEL%% quiet
 	initrdefi /images/pxeboot/initrd.img
 }
