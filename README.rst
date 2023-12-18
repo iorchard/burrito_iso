@@ -28,4 +28,27 @@ SHA512SUM files in output directory.::
     $ ls output
     burrito-1.3.1_8.9.iso  SHA512SUM
 
-Use the iso file to install Burrito OS.
+Use the iso file to install Burrito Rocky Linux OS.
+
+Install Burrito from USB
+------------------------
+
+Insert your USB stick and the linux system should be automatically 
+recognized and the USB stick will be mapped to a device named /dev/sdX which
+X is a letter in the range of a-z.
+You can find out which device the USB stick is mapped by running the command
+**lsblk** or see the output of **dmesg** as root.
+
+Make sure the device is not mounted. If it is mounted, unmount it with 
+the command **umount** as root.
+
+The iso file should be written directly to the USB stick.
+Copy the iso file to the device.::
+
+    # cp <iso_file> /dev/sdX
+    # sync
+
+Unplug the USB stick.
+
+
+    $ 
