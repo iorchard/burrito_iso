@@ -1,0 +1,15 @@
+[ceph_reef]
+async = 1
+baseurl = https://download.ceph.com/rpm-18.2.1/el8/$basearch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = Ceph Reef $basearch repo
+priority = 2
+
+[ceph_reef_noarch]
+async = 1
+baseurl = https://download.ceph.com/rpm-18.2.1/el8/noarch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = Ceph Reef noarch repo
+priority = 2

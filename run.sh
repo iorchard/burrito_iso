@@ -20,7 +20,8 @@ function check_env() {
 	   -z "${USERPW_ENC}" -o \
 	   -z "${INCLUDE_NETAPP}" -o \
 	   -z "${INCLUDE_PFX}" -o \
-	   -z "${INCLUDE_HITACHI}" \
+	   -z "${INCLUDE_HITACHI}" -o \
+	   -z "${INCLUDE_PRIMERA}" \
 	 ]; then
 	echo "The environment file is wrong. ./run.sh -e again."
 	exit 1
@@ -48,6 +49,7 @@ INCLUDE_PFX=1
 PFX_PKG_URL=${PFX_PKG_URL}
 INCLUDE_HITACHI=1
 HITACHI_IMAGE_URL=${HITACHI_IMAGE_URL}
+INCLUDE_PRIMERA=1
 EOF
 }
 

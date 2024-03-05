@@ -30,11 +30,6 @@ python3.9 -m pip download --dest ${WORKSPACE}/iso/pypi \
 
 # download ansible collections
 mkdir -p ${WORKSPACE}/iso/ansible_collections
-ansible-galaxy collection download \
-  -p ${WORKSPACE}/iso/ansible_collections \
-  -r ${WORKSPACE}/scripts/dist/burrito/ceph-ansible/requirements.yml
-mv ${WORKSPACE}/iso/ansible_collections/requirements.yml \
-  ${WORKSPACE}/iso/ansible_collections/ceph-ansible_req.yml
 if [ "${INCLUDE_PFX}" = 1 ]; then
   ansible-galaxy collection download \
     -p ${WORKSPACE}/iso/ansible_collections \
@@ -58,12 +53,16 @@ sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/grub.cfg.tpl > \
 sed "s#%%ROOTPW_ENC%%#${ROOTPW_ENC}#g;s#%%UNAME%%#${UNAME}#g;s#%%USERPW_ENC%%#${USERPW_ENC}#g;s#%%LABEL%%#${LABEL}#g" \
   ${WORKSPACE}/files/ks.cfg.tpl > ${WORKSPACE}/iso/ks.cfg
 # create .env file in iso.
-echo -e "INCLUDE_NETAPP=${INCLUDE_NETAPP}\nINCLUDE_PFX=${INCLUDE_PFX}" > \
-  ${WORKSPACE}/iso/.env
+cat <<EOF > ${WORKSPACE}/iso/.env
+INCLUDE_NETAPP=${INCLUDE_NETAPP}
+INCLUDE_PFX=${INCLUDE_PFX}
+INCLUDE_HITACHI=${INCLUDE_HITACHI}
+INCLUDE_PRIMERA=${INCLUDE_PRIMERA}
+EOF
 
 # ceph repo setup
 rpm --import 'https://download.ceph.com/keys/release.asc'
-cp ${WORKSPACE}/files/ceph_quincy.repo /etc/yum.repos.d/
+cp ${WORKSPACE}/files/ceph_reef.repo /etc/yum.repos.d/
 
 # copy comps_base.xml, modules.yaml into iso
 mkdir -p ${WORKSPACE}/iso/BaseOS/Packages
@@ -79,7 +78,8 @@ if [ "${INCLUDE_PFX}" = 1 ]; then
     curl -LO ${PFX_PKG_URL}
   popd
 fi
-cat ${WORKSPACE}/files/burrito_rpm.txt $PFX_RPM | \
+[[ "${INCLUDE_PRIMERA}" = 1 ]] && PRIMERA_RPM="${WORKSPACE}/files/primera_rpm.txt" || PRIMERA_RPM=""
+cat ${WORKSPACE}/files/burrito_rpm.txt $PFX_RPM $PRIMERA_RPM | \
   xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download
 createrepo -g comps_base.xml ${WORKSPACE}/iso/BaseOS/
 
