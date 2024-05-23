@@ -161,6 +161,9 @@ iptables.x86_64
 iputils.x86_64
 ipvsadm.x86_64
 irqbalance.x86_64
+iscsi-initiator-utils-iscsiuio.x86_64
+iscsi-initiator-utils.x86_64
+isns-utils-libs.x86_64
 jansson.x86_64
 jq.x86_64
 json-c.x86_64
