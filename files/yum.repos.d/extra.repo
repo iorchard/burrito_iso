@@ -1,0 +1,7 @@
+[extras]
+name=Rocky Linux $releasever - Extras
+baseurl=http://dl.rockylinux.org/vault/rocky/VERSION/extras/$basearch/os/
+gpgcheck=1
+enabled=1
+countme=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial

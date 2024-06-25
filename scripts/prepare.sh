@@ -2,6 +2,12 @@
 
 set -ex
 
+# Reset yum repo for the RL version
+mv /etc/yum.repos.d /etc/yum.repos.d.bak
+mkdir /etc/yum.repos.d
+cp ${WORKSPACE}/files/yum.repos.d/* /etc/yum.repos.d/
+sed -i "s/VERSION/${VER}/g" /etc/yum.repos.d/*.repo
+
 dnf -y install epel-release
 COMMON_DEPS=(curl findutils git p7zip p7zip-plugins python39 python39-pip)
 ISO_DEPS=(createrepo_c modulemd-tools genisoimage syslinux)
