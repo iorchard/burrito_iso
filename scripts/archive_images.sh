@@ -23,7 +23,7 @@ fi
 
 # Push images to registry
 pushd ${WORKSPACE}/files
-  IMAGES=$(cat images.txt $([ "${INCLUDE_NETAPP}" = 1 ] && echo -n netapp_images.txt || :) $([ "${INCLUDE_PFX}" = 1 ] && echo -n pfx_images.txt || :) $([ "${INCLUDE_PRIMERA}" = 1 ] && echo -n primera_images.txt || :))
+  IMAGES=$(cat images.txt $([ "${INCLUDE_NETAPP}" = 1 ] && echo -n netapp_images.txt || :) $([ "${INCLUDE_PFX}" = 1 ] && echo -n pfx_images.txt || :) $([ "${INCLUDE_PRIMERA}" = 1 ] && echo -n primera_images.txt || :) $([ "${INCLUDE_PURESTORAGE}" = 1 ] && echo -n purestorage_images.txt || :))
 popd
 
 for src in ${IMAGES}; do

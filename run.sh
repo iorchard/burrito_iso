@@ -21,7 +21,8 @@ function check_env() {
 	   -z "${INCLUDE_NETAPP}" -o \
 	   -z "${INCLUDE_PFX}" -o \
 	   -z "${INCLUDE_HITACHI}" -o \
-	   -z "${INCLUDE_PRIMERA}" \
+	   -z "${INCLUDE_PRIMERA}" -o \
+	   -z "${INCLUDE_PURESTORAGE}" \
 	 ]; then
 	echo "The environment file is wrong. ./run.sh -e again."
 	exit 1
@@ -50,6 +51,7 @@ PFX_PKG_URL=${PFX_PKG_URL}
 INCLUDE_HITACHI=1
 HITACHI_IMAGE_URL=${HITACHI_IMAGE_URL}
 INCLUDE_PRIMERA=1
+INCLUDE_PURESTORAGE=1
 EOF
 }
 
@@ -59,8 +61,8 @@ function build() {
   fi
   . ${ENVFILE}
   check_env
-  VER=${1:-8.9}
-  SRC_VER=${2:-1.3.1}
+  VER=${1:-8.10}
+  SRC_VER=${2:-2.1.0}
 
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run --privileged -v $(pwd)/output:/output --rm \
@@ -73,6 +75,7 @@ function run() {
     setup_env
   fi
   . ${ENVFILE}
+  check_env
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run -it --privileged -v $(pwd)/output:/output --rm \
 	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
@@ -89,10 +92,10 @@ function USAGE() {
   echo
   echo "Options"
   echo "-------"
-  echo "Rocky Linux version          Default: 8.9"
-  echo "Burrito source version       Default: 1.3.1"
+  echo "Rocky Linux version          Default: 8.10"
+  echo "Burrito source version       Default: 2.1.0"
   echo
-  echo "ex) $0 --build 8.9 1.3.1"
+  echo "ex) $0 --build 8.10 2.1.0"
   echo
 }
 if [ $# -lt 1 ]; then
