@@ -6,7 +6,6 @@ text
 #url --url="http://download.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/"
 # usb install
 harddrive --partition=/dev/disk/by-label/%%LABEL%% --dir=/
-#lang ko_KR.UTF-8
 lang en_US --addsupport=ko_KR
 keyboard us
 firewall --disabled
@@ -16,7 +15,7 @@ bootloader --timeout=5 --location=mbr
 skipx
 # Partition scheme split into 2 mode - legacy BIOS vs. UEFI
 %include /tmp/partition-scheme
-%pre --logfile /tmp/ks-pre.log
+%pre --logfile /tmp/ks-pre.log --interpreter=/usr/bin/bash --erroronfail
 # Select OS disk
 # Should not be removable
 # is not less than $MINSIZE GB
@@ -24,24 +23,94 @@ skipx
 BLOCKDIR="/sys/block"
 MINSIZE=45
 MAXSIZE=1100
-ROOTDRIVE=""
-for d in $BLOCKDIR/sd* $BLOCKDIR/nvme*; do
+MSG=
+ROOTDRIVE=
+CANDIDATES=()
+MMCBLK_GRP=()
+SD_GRP=()
+NVME_GRP=()
+TOTAL_SCORE=0
+MMCBLK_SCORE=0
+SD_SCORE=0
+NVME_SCORE=0
+
+for d in $BLOCKDIR/sd* $BLOCKDIR/nvme* $BLOCKDIR/mmcblk*; do
   DEV=$(basename "$d")
   if [ -d $BLOCKDIR/$DEV ]; then
     if [[ "`cat $BLOCKDIR/$DEV/removable`" = "0" ]]; then
       GB=$((`cat $BLOCKDIR/$DEV/size`/2**21))
       echo "Block device $DEV has $GB GB."
-      if [ $GB -gt $MINSIZE -a $GB -lt $MAXSIZE -a -z "$ROOTDRIVE" ]; then
-        ROOTDRIVE=$DEV
-        echo "Selected ROOTDRIVE=$ROOTDRIVE"
-        break
+      if [ $GB -gt $MINSIZE -a $GB -lt $MAXSIZE ]; then
+        CANDIDATES+=("$DEV")
+        case $DEV in
+          sd*)
+            SD_GRP+=("$DEV")
+            SD_SCORE=1
+            ;;
+          nvme*)
+            NVME_GRP+=("$DEV")
+            NVME_SCORE=2
+            ;;
+          mmcblk*)
+            MMCBLK_GRP+=("$DEV")
+            MMCBLK_SCORE=4
+            ;;
+        esac
+        if [ -z "$MSG" ]; then
+          MSG="$DEV ($GB GB)"
+        else
+          MSG="${MSG}, $DEV ($GB GB)"
+        fi
       fi
     fi
   fi
 done
 
+TOTAL_SCORE=$(($SD_SCORE+$NVME_SCORE+$MMCBLK_SCORE))
+if [[ "$TOTAL_SCORE" = "0" ]]; then
+    echo "ERROR: Cannot find the OS device candidates."
+    exit 1
+else
+    if [[ "$(($TOTAL_SCORE & ($TOTAL_SCORE-1)))" = "0" ]]; then
+      echo "Only one device group has the OS device candidates."
+      case $TOTAL_SCORE in
+          1)
+              ROOTDRIVE=${SD_GRP[0]}
+              ;;
+          2)
+              ROOTDRIVE=${NVME_GRP[0]}
+              ;;
+          4)
+              ROOTDRIVE=${MMCBLK_GRP[0]}
+              ;;
+      esac
+    else
+      echo "Multiple device groups have the OS device candidates."
+      exec < /dev/tty6 > /dev/tty6 2> /dev/tty6
+      chvt 6
+      echo
+      while :; do
+        echo -e "Root drive candidates:\n$MSG\n"
+        read -p "Which device do you want to install the OS on? " SELECTED
+        if [[ " ${CANDIDATES[*]} " != *" $SELECTED "* ]]; then
+          echo "You entered the wrong device name. Please enter it again."
+          echo
+        else
+          break
+        fi
+      done
+      ROOTDRIVE=$SELECTED
+      echo
+      echo "You have selected $ROOTDRIVE for the OS installation device."
+      sleep 3
+      chvt 1
+      exec < /dev/tty1 > /dev/tty1 2> /dev/tty1
+    fi
+fi
+
 if [ -z "$ROOTDRIVE" ]; then
   echo "ERROR: ROOTDRIVE is not defined."
+  exit 1
 else
   echo "ROOTDRIVE is defined: $ROOTDRIVE"
   cat > /tmp/partition-scheme <<END
@@ -85,6 +154,7 @@ lsof
 wget
 jq
 patch
+gnutls-utils
 %end
 
 %post
