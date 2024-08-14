@@ -350,6 +350,7 @@ mdadm.x86_64
 memstrack.x86_64
 mokutil.x86_64
 mozjs60.x86_64
+mpdecimal.x86_64
 mpfr.x86_64
 ncurses-base.noarch
 ncurses-libs.x86_64
@@ -464,12 +465,12 @@ protobuf-c.x86_64
 psmisc.x86_64
 publicsuffix-list-dafsa.noarch
 python36.x86_64
-python39-libs.x86_64
-python39-pip.noarch
-python39-pip-wheel.noarch
-python39-setuptools.noarch
-python39-setuptools-wheel.noarch
-python39.x86_64
+python3.11-libs.x86_64
+python3.11-pip.noarch
+python3.11-pip-wheel.noarch
+python3.11-setuptools.noarch
+python3.11-setuptools-wheel.noarch
+python3.11.x86_64
 python3-audit.x86_64
 python3-bcrypt.x86_64
 python3-beautifulsoup4.noarch
