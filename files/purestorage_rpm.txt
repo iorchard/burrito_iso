@@ -1,0 +1,4 @@
+iscsi-initiator-utils.x86_64
+iscsi-initiator-utils-iscsiuio.x86_64
+isns-utils-libs.x86_64
+libstoragemgmt-udev

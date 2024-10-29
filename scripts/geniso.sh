@@ -2,7 +2,7 @@
 
 set -exo pipefail
 
-VER=${1:-8.9}
+VER=${1:-8.10}
 SRC_VER=${2:-2.0.9}
 REL_NAME="${SRC_VER//\//_}"
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
@@ -25,7 +25,7 @@ $(dirname $0)/archive_images.sh
 
 # download python packages
 mkdir -p ${WORKSPACE}/iso/pypi
-python3.9 -m pip download --dest ${WORKSPACE}/iso/pypi \
+python3.11 -m pip download --dest ${WORKSPACE}/iso/pypi \
     --requirement ${WORKSPACE}/files/requirements.txt
 
 # download ansible collections
@@ -41,8 +41,8 @@ fi
 find ${WORKSPACE}/iso -type f | xargs chmod 0644
 find ${WORKSPACE}/iso -type d | xargs chmod 0755
 
-# overwrite .discinfo and .treeinfo
-cp ${WORKSPACE}/files/.{disc,tree}info ${WORKSPACE}/iso/
+# overwrite .treeinfo
+cp ${WORKSPACE}/files/.treeinfo ${WORKSPACE}/iso/
 
 # overwrite isolinux.cfg and grub.cfg with custom LABEL
 sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/isolinux.cfg.tpl > \
@@ -58,6 +58,8 @@ INCLUDE_NETAPP=${INCLUDE_NETAPP}
 INCLUDE_PFX=${INCLUDE_PFX}
 INCLUDE_HITACHI=${INCLUDE_HITACHI}
 INCLUDE_PRIMERA=${INCLUDE_PRIMERA}
+INCLUDE_PURESTORAGE=${INCLUDE_PURESTORAGE}
+INCLUDE_POWERSTORE=${INCLUDE_POWERSTORE}
 EOF
 
 # ceph repo setup
@@ -79,8 +81,10 @@ if [ "${INCLUDE_PFX}" = 1 ]; then
   popd
 fi
 [[ "${INCLUDE_PRIMERA}" = 1 ]] && PRIMERA_RPM="${WORKSPACE}/files/primera_rpm.txt" || PRIMERA_RPM=""
-cat ${WORKSPACE}/files/burrito_rpm.txt $PFX_RPM $PRIMERA_RPM | \
-  xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download
+[[ "${INCLUDE_PURESTORAGE}" = 1 ]] && PURESTORAGE_RPM="${WORKSPACE}/files/purestorage_rpm.txt" || PURESTORAGE_RPM=""
+cat ${WORKSPACE}/files/burrito_rpm.txt \
+	$PFX_RPM $PRIMERA_RPM $PURESTORAGE_RPM | \
+	xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download
 createrepo -g comps_base.xml ${WORKSPACE}/iso/BaseOS/
 
 # create iso file
