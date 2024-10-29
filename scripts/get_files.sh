@@ -45,6 +45,10 @@ pushd ${WORKSPACE}/files
     tar --strip-components=2 -xvzf ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz \
       burrito-${REL_NAME}/scripts/purestorage_images.txt
   fi
+  if [ "${INCLUDE_POWERSTORE}" = 1 ]; then
+    tar --strip-components=2 -xvzf ${WORKSPACE}/iso/burrito-${REL_NAME}.tar.gz \
+      burrito-${REL_NAME}/scripts/powerstore_images.txt
+  fi
 popd
 # download files
 if [ ! -f "${FILES_LIST}" ]; then

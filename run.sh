@@ -22,7 +22,8 @@ function check_env() {
 	   -z "${INCLUDE_PFX}" -o \
 	   -z "${INCLUDE_HITACHI}" -o \
 	   -z "${INCLUDE_PRIMERA}" -o \
-	   -z "${INCLUDE_PURESTORAGE}" \
+	   -z "${INCLUDE_PURESTORAGE}" -o \
+	   -z "${INCLUDE_POWERSTORE}" \
 	 ]; then
 	echo "The environment file is wrong. ./run.sh -e again."
 	exit 1
@@ -52,6 +53,7 @@ INCLUDE_HITACHI=1
 HITACHI_IMAGE_URL=${HITACHI_IMAGE_URL}
 INCLUDE_PRIMERA=1
 INCLUDE_PURESTORAGE=1
+INCLUDE_POWERSTORE=1
 EOF
 }
 
