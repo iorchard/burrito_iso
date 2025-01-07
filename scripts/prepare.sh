@@ -12,7 +12,7 @@ dnf -y install epel-release
 COMMON_DEPS=(curl findutils git p7zip p7zip-plugins python3.11 python3.11-pip)
 ISO_DEPS=(createrepo_c modulemd-tools genisoimage syslinux)
 IMAGE_DEPS=(podman)
-FILE_DEPS=(wget gzip)
+FILE_DEPS=(wget gzip xz)
 dnf -y install ${COMMON_DEPS[@]} ${ISO_DEPS[@]} \
     ${IMAGE_DEPS[@]} ${FILE_DEPS[@]}
 
