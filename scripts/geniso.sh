@@ -12,6 +12,8 @@ ISOURL="http://192.168.151.110:8000/burrito/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
 REG_VER="2.8.2"
 REG_URL="https://github.com/distribution/distribution/releases/download/v${REG_VER}/registry_${REG_VER}_linux_amd64.tar.gz"
+COMPS_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/BaseOS/x86_64/os"
+MODULES_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/AppStream/x86_64/os"
 export ISOURL BASE_ISOFILE REG_URL SRC_VER REL_NAME VER
 
 # run prepare script - install packages, download and extract base iso file.
@@ -66,10 +68,12 @@ EOF
 rpm --import 'https://download.ceph.com/keys/release.asc'
 cp ${WORKSPACE}/files/ceph_reef.repo /etc/yum.repos.d/
 
-# copy comps_base.xml, modules.yaml into iso
+# download and copy comps_base.xml, modules.yaml into iso directory
 mkdir -p ${WORKSPACE}/iso/BaseOS/Packages
-cp ${WORKSPACE}/files/comps_base.xml ${WORKSPACE}/iso/BaseOS/
-cp ${WORKSPACE}/files/modules.yaml ${WORKSPACE}/iso/BaseOS/
+COMPS_URL_APPEND=$(curl -sL $COMPS_URL_BASE/repodata/repomd.xml | grep comps.*xml.xz | cut -d'"' -f2)
+MODULES_URL_APPEND=$(curl -sL $MODULES_URL_BASE/repodata/repomd.xml | grep modules.yaml.xz |cut -d'"' -f2)
+curl -s ${COMPS_URL_BASE}/${COMPS_URL_APPEND} | unxz > ${WORKSPACE}/iso/BaseOS/comps_base.xml
+curl -s ${MODULES_URL_BASE}/${MODULES_URL_APPEND} | unxz > ${WORKSPACE}/iso/BaseOS/modules.yaml
 
 # download rpm packages
 PFX_RPM=""
