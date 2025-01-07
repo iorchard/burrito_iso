@@ -1,7 +1,7 @@
 Burrito ISO
 =============
 
-This project is for creating a custom burrito iso.
+This is a tool to create a custom burrito iso.
 Burrito is a security-focused openstack on kubernetes platform.
 (https://github.com/iorchard/burrito.git)
 
