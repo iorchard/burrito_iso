@@ -7,10 +7,9 @@ SRC_VER=${2:-2.0.9}
 REL_NAME="${SRC_VER//\//_}"
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
 ISOFILE="burrito-${REL_NAME}_${VER}.iso"
-#ISOURL="https://download.rockylinux.org/pub/rocky/${VER}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
-ISOURL="http://192.168.151.110:8000/burrito/Rocky-${VER}-x86_64-minimal.iso"
+ISOURL="https://download.rockylinux.org/pub/rocky/${VER}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
-REG_VER="2.8.2"
+REG_VER="2.8.3"
 REG_URL="https://github.com/distribution/distribution/releases/download/v${REG_VER}/registry_${REG_VER}_linux_amd64.tar.gz"
 COMPS_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/BaseOS/x86_64/os"
 MODULES_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/AppStream/x86_64/os"
@@ -77,17 +76,28 @@ curl -s ${MODULES_URL_BASE}/${MODULES_URL_APPEND} | unxz > ${WORKSPACE}/iso/Base
 
 # download rpm packages
 PFX_RPM=""
+PFMP_RPM=""
 if [ "${INCLUDE_PFX}" = 1 ]; then
   PFX_RPM="${WORKSPACE}/files/pfx_rpm.txt"
+  PFMP_RPM="${WORKSPACE}/files/pfmp_rpm.txt"
   # get powerflex package tarball from PFX_PKG_URL
   pushd ${WORKSPACE}/iso
     curl -LO ${PFX_PKG_URL}
+  popd
+  # create pfmp_robot tarball
+  git clone https://github.com/iorchard/pfmp_robot.git ${WORKSPACE}/pfmp_robot
+  pushd ${WORKSPACE}/pfmp_robot
+    mkdir pypi
+    python3 -m pip download --dest pypi -r requirements.txt
+    git archive --prefix=pfmp_robot/ --output=${WORKSPACE}/iso/pfmp_robot.tar main
+    tar --xform="s#^#pfmp_robot/#" -rf ${WORKSPACE}/iso/pfmp_robot.tar pypi
+    gzip -9f ${WORKSPACE}/iso/pfmp_robot.tar
   popd
 fi
 [[ "${INCLUDE_PRIMERA}" = 1 ]] && PRIMERA_RPM="${WORKSPACE}/files/primera_rpm.txt" || PRIMERA_RPM=""
 [[ "${INCLUDE_PURESTORAGE}" = 1 ]] && PURESTORAGE_RPM="${WORKSPACE}/files/purestorage_rpm.txt" || PURESTORAGE_RPM=""
 cat ${WORKSPACE}/files/burrito_rpm.txt \
-	$PFX_RPM $PRIMERA_RPM $PURESTORAGE_RPM | \
+	$PFX_RPM $PFMP_RPM $PRIMERA_RPM $PURESTORAGE_RPM | \
 	xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download
 createrepo -g comps_base.xml ${WORKSPACE}/iso/BaseOS/
 
