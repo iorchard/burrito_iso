@@ -59,8 +59,8 @@ dbus.x86_64
 device-mapper-event-libs.x86_64
 device-mapper-event.x86_64
 device-mapper-libs.x86_64
-device-mapper-multipath.x86_64
 device-mapper-multipath-libs.x86_64
+device-mapper-multipath.x86_64
 device-mapper-persistent-data.x86_64
 device-mapper.x86_64
 dhcp-client.x86_64
@@ -71,8 +71,8 @@ dmidecode.x86_64
 dnf-data.noarch
 dnf.noarch
 dnf-plugins-core.noarch
-dosfstools.x86_64
 dnsmasq.x86_64
+dosfstools.x86_64
 dracut-config-rescue.x86_64
 dracut-network.x86_64
 dracut-squash.x86_64
@@ -396,8 +396,8 @@ parted.x86_64
 pass.noarch
 passwd.x86_64
 patch.x86_64
-pciutils.x86_64
 pciutils-libs.x86_64
+pciutils.x86_64
 pcre2.x86_64
 pcre.x86_64
 perl-Carp.noarch
@@ -467,13 +467,13 @@ procps-ng.x86_64
 protobuf-c.x86_64
 psmisc.x86_64
 publicsuffix-list-dafsa.noarch
-python36.x86_64
 python3.11-libs.x86_64
 python3.11-pip.noarch
 python3.11-pip-wheel.noarch
 python3.11-setuptools.noarch
 python3.11-setuptools-wheel.noarch
 python3.11.x86_64
+python36.x86_64
 python3-audit.x86_64
 python3-bcrypt.x86_64
 python3-beautifulsoup4.noarch
