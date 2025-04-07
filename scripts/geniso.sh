@@ -77,9 +77,11 @@ curl -s ${MODULES_URL_BASE}/${MODULES_URL_APPEND} | unxz > ${WORKSPACE}/iso/Base
 # download rpm packages
 PFX_RPM=""
 PFMP_RPM=""
+PFMP_NODE_RPM=""
 if [ "${INCLUDE_PFX}" = 1 ]; then
   PFX_RPM="${WORKSPACE}/files/pfx_rpm.txt"
   PFMP_RPM="${WORKSPACE}/files/pfmp_rpm.txt"
+  PFMP_NODE_RPM="${WORKSPACE}/files/pfmp_node_rpm.txt"
   # get powerflex package tarball from PFX_PKG_URL
   pushd ${WORKSPACE}/iso
     curl -LO ${PFX_PKG_URL}
@@ -97,7 +99,7 @@ fi
 [[ "${INCLUDE_PRIMERA}" = 1 ]] && PRIMERA_RPM="${WORKSPACE}/files/primera_rpm.txt" || PRIMERA_RPM=""
 [[ "${INCLUDE_PURESTORAGE}" = 1 ]] && PURESTORAGE_RPM="${WORKSPACE}/files/purestorage_rpm.txt" || PURESTORAGE_RPM=""
 cat ${WORKSPACE}/files/burrito_rpm.txt \
-	$PFX_RPM $PFMP_RPM $PRIMERA_RPM $PURESTORAGE_RPM | \
+	$PFX_RPM $PFMP_RPM $PFMP_NODE_RPM $PRIMERA_RPM $PURESTORAGE_RPM | \
 	xargs dnf --destdir ${WORKSPACE}/iso/BaseOS/Packages download
 createrepo -g comps_base.xml ${WORKSPACE}/iso/BaseOS/
 

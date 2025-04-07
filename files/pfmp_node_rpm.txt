@@ -1,0 +1,10 @@
+glibc-langpack-en.x86_64
+glibc-langpack-ko.x86_64
+langpacks-en.noarch
+langpacks-ko.noarch
+nmap-ncat.x86_64
+nmap.x86_64
+podman-docker.noarch
+qemu-guest-agent.x86_64
+skopeo.x86_64
+zstd.x86_64
