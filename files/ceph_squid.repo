@@ -1,0 +1,15 @@
+[ceph_reef]
+async = 1
+baseurl = https://download.ceph.com/rpm-19.2.2/el9/$basearch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = Ceph Squid $basearch repo
+priority = 2
+
+[ceph_squid_noarch]
+async = 1
+baseurl = https://download.ceph.com/rpm-19.2.2/el9/noarch
+gpgcheck = 1
+gpgkey = https://download.ceph.com/keys/release.asc
+name = Ceph Squid noarch repo
+priority = 2

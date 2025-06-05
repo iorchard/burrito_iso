@@ -47,13 +47,13 @@ ROOTPW_ENC=${ROOTPW_ENC}
 UNAME=${UNAME}
 USERPW_ENC=${USERPW_ENC}
 INCLUDE_NETAPP=1
-INCLUDE_PFX=1
+INCLUDE_PFX=0
 PFX_PKG_URL=${PFX_PKG_URL}
-INCLUDE_HITACHI=1
+INCLUDE_HITACHI=0
 HITACHI_IMAGE_URL=${HITACHI_IMAGE_URL}
-INCLUDE_PRIMERA=1
-INCLUDE_PURESTORAGE=1
-INCLUDE_POWERSTORE=1
+INCLUDE_PRIMERA=0
+INCLUDE_PURESTORAGE=0
+INCLUDE_POWERSTORE=0
 EOF
 }
 
@@ -63,8 +63,8 @@ function build() {
   fi
   . ${ENVFILE}
   check_env
-  VER=${1:-8.10}
-  SRC_VER=${2:-2.1.0}
+  VER=${1:-9.5}
+  SRC_VER=${2:-3.0.0}
 
   podman build -t docker.io/jijisa/burrito-isobuilder .
   podman run --privileged -v $(pwd)/output:/output --rm \
@@ -94,10 +94,10 @@ function USAGE() {
   echo
   echo "Options"
   echo "-------"
-  echo "Rocky Linux version          Default: 8.10"
-  echo "Burrito source version       Default: 2.1.0"
+  echo "Rocky Linux version          Default: 9.5"
+  echo "Burrito source version       Default: 3.0.0"
   echo
-  echo "ex) $0 --build 8.10 2.1.0"
+  echo "ex) $0 --build 9.5 3.0.0"
   echo
 }
 if [ $# -lt 1 ]; then

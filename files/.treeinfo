@@ -1,22 +1,22 @@
 [checksums]
-images/efiboot.img = sha256:0ecfdc0f48c29aa684b9ae129ee011f5b7eba88d81d8b34038c1474aed14e340
-images/install.img = sha256:6bda470e0413147ac0bdfc10609ff6af237a296824ac8c3db17b13137163eaeb
-images/pxeboot/initrd.img = sha256:4f39757de0ee351b87981d510b478efee131441e14f78f61f43584b47ccf80aa
-images/pxeboot/vmlinuz = sha256:4df48703b86574bb20576b14f9c209e6149aabe6ad06ccb709131fee48b46fed
+images/efiboot.img = sha256:0961bead2e53997f69f480c38058726450c49e9ca7047ca5ea171fa31a4efa95
+images/install.img = sha256:4f5f4fe45598e3991ed34d539c5d57b3bb0642c179eda065fe58c7150e29d8d9
+images/pxeboot/initrd.img = sha256:56d3ad958a2b3870eed7a2ec07edd4f975b05fd04c53e38ea0f0a4587be58ffb
+images/pxeboot/vmlinuz = sha256:ea9690b40324133d81a95772ba5d33d41dd089dbeaafe1175820b7f041ae64ef
 
 [general]
 ; WARNING.0 = This section provides compatibility with pre-productmd treeinfos.
 ; WARNING.1 = Read productmd documentation for details about new format.
 arch = x86_64
 family = Rocky Linux
-name = Rocky Linux 8.10
-packagedir = BaseOS/Packages
+name = Rocky Linux 9.5
+packagedir = minimal/Packages
 platforms = x86_64,xen
-repository = BaseOS
-timestamp = 1716822177
-variant = BaseOS
-variants = BaseOS
-version = 8.10
+repository = minimal
+timestamp = 1731721955
+variant = minimal
+variants = BaseOS,minimal
+version = 9.5
 
 [header]
 type = productmd.treeinfo
@@ -38,14 +38,14 @@ totaldiscs = 1
 [release]
 name = Rocky Linux
 short = Rocky
-version = 8.10
+version = 9.5
 
 [stage2]
 mainimage = images/install.img
 
 [tree]
 arch = x86_64
-build_timestamp = 1716822177
+build_timestamp = 1731721955
 platforms = x86_64,xen
 variants = BaseOS
 

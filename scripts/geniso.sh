@@ -2,17 +2,17 @@
 
 set -exo pipefail
 
-VER=${1:-8.10}
-SRC_VER=${2:-2.0.9}
+VER=${1:-9.5}
+SRC_VER=${2:-3.0.0}
 REL_NAME="${SRC_VER//\//_}"
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
 ISOFILE="burrito-${REL_NAME}_${VER}.iso"
-ISOURL="https://download.rockylinux.org/pub/rocky/${VER}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
+ISOURL="https://dl.rockylinux.org/pub/rocky/${VER}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
 REG_VER="2.8.3"
 REG_URL="https://github.com/distribution/distribution/releases/download/v${REG_VER}/registry_${REG_VER}_linux_amd64.tar.gz"
-COMPS_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/BaseOS/x86_64/os"
-MODULES_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/AppStream/x86_64/os"
+COMPS_URL_BASE="https://dl.rockylinux.org/pub/rocky/${VER}/BaseOS/x86_64/os"
+MODULES_URL_BASE="https://dl.rockylinux.org/pub/rocky/${VER}/AppStream/x86_64/os"
 export ISOURL BASE_ISOFILE REG_URL SRC_VER REL_NAME VER
 
 # run prepare script - install packages, download and extract base iso file.
@@ -26,7 +26,7 @@ $(dirname $0)/archive_images.sh
 
 # download python packages
 mkdir -p ${WORKSPACE}/iso/pypi
-python3.11 -m pip download --dest ${WORKSPACE}/iso/pypi \
+python3.12 -m pip download --dest ${WORKSPACE}/iso/pypi \
     --requirement ${WORKSPACE}/files/requirements.txt
 
 # download ansible collections
@@ -65,14 +65,14 @@ EOF
 
 # ceph repo setup
 rpm --import 'https://download.ceph.com/keys/release.asc'
-cp ${WORKSPACE}/files/ceph_reef.repo /etc/yum.repos.d/
+cp ${WORKSPACE}/files/ceph_squid.repo /etc/yum.repos.d/
 
 # download and copy comps_base.xml, modules.yaml into iso directory
 mkdir -p ${WORKSPACE}/iso/BaseOS/Packages
-COMPS_URL_APPEND=$(curl -sL $COMPS_URL_BASE/repodata/repomd.xml | grep comps.*xml.xz | cut -d'"' -f2)
-MODULES_URL_APPEND=$(curl -sL $MODULES_URL_BASE/repodata/repomd.xml | grep modules.yaml.xz |cut -d'"' -f2)
-curl -s ${COMPS_URL_BASE}/${COMPS_URL_APPEND} | unxz > ${WORKSPACE}/iso/BaseOS/comps_base.xml
-curl -s ${MODULES_URL_BASE}/${MODULES_URL_APPEND} | unxz > ${WORKSPACE}/iso/BaseOS/modules.yaml
+COMPS_URL_APPEND=$(curl -sL $COMPS_URL_BASE/repodata/repomd.xml | grep GROUPS.xml.gz | cut -d'"' -f2)
+MODULES_URL_APPEND=$(curl -sL $MODULES_URL_BASE/repodata/repomd.xml | grep MODULES.yaml.gz |cut -d'"' -f2)
+curl -s ${COMPS_URL_BASE}/${COMPS_URL_APPEND} | gunzip > ${WORKSPACE}/iso/BaseOS/comps_base.xml
+curl -s ${MODULES_URL_BASE}/${MODULES_URL_APPEND} | gunzip > ${WORKSPACE}/iso/BaseOS/modules.yaml
 
 # download rpm packages
 PFX_RPM=""

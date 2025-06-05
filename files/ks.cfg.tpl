@@ -1,9 +1,7 @@
-## version=Rocky8
-## Rocky Linux 8 Kickstart 
+## version=Rocky9
+## Rocky Linux 9 Kickstart 
 # install mode: text, graphical
 text
-# network install
-#url --url="http://download.rockylinux.org/pub/rocky/8/BaseOS/x86_64/os/"
 # usb install
 harddrive --partition=/dev/disk/by-label/%%LABEL%% --dir=/
 lang en_US --addsupport=ko_KR

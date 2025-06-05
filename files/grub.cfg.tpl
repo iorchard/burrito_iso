@@ -20,7 +20,7 @@ set timeout=10
 search --no-floppy --set=root -l '%%LABEL%%'
 
 ### BEGIN /etc/grub.d/10_linux ###
-menuentry 'Install Burrito Rocky Linux 8' --class fedora --class gnu-linux --class gnu --class os {
+menuentry 'Install Burrito Rocky Linux 9.5' --class fedora --class gnu-linux --class gnu --class os {
 	linuxefi /images/pxeboot/vmlinuz inst.ks=hd:LABEL=%%LABEL%% inst.stage2=hd:LABEL=%%LABEL%% quiet
 	initrdefi /images/pxeboot/initrd.img
 }
