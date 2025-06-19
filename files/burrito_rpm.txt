@@ -281,6 +281,7 @@ libnghttp2.x86_64
 libnl3-cli.x86_64
 libnl3.x86_64
 libnsl2.x86_64
+libnvme.x86_64
 liboath.x86_64
 libpath_utils.x86_64
 libpcap.x86_64

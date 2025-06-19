@@ -63,7 +63,7 @@ function build() {
   fi
   . ${ENVFILE}
   check_env
-  VER=${1:-9.5}
+  VER=${1:-9.6}
   SRC_VER=${2:-3.0.0}
 
   podman build -t docker.io/jijisa/burrito-isobuilder .
@@ -78,7 +78,10 @@ function run() {
   fi
   . ${ENVFILE}
   check_env
-  podman build -t docker.io/jijisa/burrito-isobuilder .
+  VER=${1:-9.6}
+  SRC_VER=${2:-3.0.0}
+  podman build -t docker.io/jijisa/burrito-isobuilder \
+    --build-arg=FROM=docker.io/rockylinux/rockylinux:${VER} .
   podman run -it --privileged -v $(pwd)/output:/output --rm \
 	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
     --entrypoint=/bin/bash \
@@ -94,10 +97,10 @@ function USAGE() {
   echo
   echo "Options"
   echo "-------"
-  echo "Rocky Linux version          Default: 9.5"
+  echo "Rocky Linux version          Default: 9.6"
   echo "Burrito source version       Default: 3.0.0"
   echo
-  echo "ex) $0 --build 9.5 3.0.0"
+  echo "ex) $0 --build 9.6 3.0.0"
   echo
 }
 if [ $# -lt 1 ]; then
@@ -123,7 +126,7 @@ do
       break
       ;;
     -r | --run)
-      run
+      run "$@"
       break
       ;;
     *)
