@@ -9,6 +9,8 @@ cp ${WORKSPACE}/files/yum.repos.d/* /etc/yum.repos.d/
 sed -i "s/VERSION/${VER}/g" /etc/yum.repos.d/*.repo
 
 dnf -y install epel-release
+# Copy files/epel.repo to /etc/yum.repos.d/
+cp ${WORKSPACE}/files/epel.repo /etc/yum.repos.d/
 COMMON_DEPS=(findutils git p7zip p7zip-plugins python3.12 python3.12-pip)
 ISO_DEPS=(createrepo_c modulemd-tools genisoimage syslinux)
 IMAGE_DEPS=(podman)
