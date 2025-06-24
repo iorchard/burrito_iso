@@ -1,6 +1,6 @@
 [appstream]
 name=Rocky Linux $releasever - AppStream
-baseurl=http://dl.rockylinux.org/vault/rocky/VERSION/AppStream/$basearch/os/
+baseurl=http://dl.rockylinux.org/pub/rocky/VERSION/AppStream/$basearch/os/
 gpgcheck=1
 enabled=1
 countme=1
