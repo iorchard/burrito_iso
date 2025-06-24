@@ -7,12 +7,12 @@ SRC_VER=${2:-2.0.9}
 REL_NAME="${SRC_VER//\//_}"
 LABEL="Burrito-Rocky-${VER/./-}-x86_64"
 ISOFILE="burrito-${REL_NAME}_${VER}.iso"
-ISOURL="https://download.rockylinux.org/pub/rocky/${VER}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
+ISOURL="https://dl.rockylinux.org/pub/rocky/${VER}/isos/x86_64/Rocky-${VER}-x86_64-minimal.iso"
 BASE_ISOFILE=$(basename ${ISOURL})
 REG_VER="2.8.3"
 REG_URL="https://github.com/distribution/distribution/releases/download/v${REG_VER}/registry_${REG_VER}_linux_amd64.tar.gz"
-COMPS_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/BaseOS/x86_64/os"
-MODULES_URL_BASE="https://download.rockylinux.org/pub/rocky/${VER}/AppStream/x86_64/os"
+COMPS_URL_BASE="https://dl.rockylinux.org/pub/rocky/${VER}/BaseOS/x86_64/os"
+MODULES_URL_BASE="https://dl.rockylinux.org/pub/rocky/${VER}/AppStream/x86_64/os"
 export ISOURL BASE_ISOFILE REG_URL SRC_VER REL_NAME VER
 
 # run prepare script - install packages, download and extract base iso file.
