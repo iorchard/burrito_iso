@@ -331,6 +331,7 @@ libtdb.x86_64
 libteam.x86_64
 libtevent.x86_64
 libtirpc.x86_64
+libtool-ltdl.x86_64
 libudisks2.x86_64
 libunistring.x86_64
 libunwind.x86_64
@@ -339,6 +340,7 @@ libusbx.x86_64
 libuser.x86_64
 libutempter.x86_64
 libuuid.x86_64
+libuv.x86_64
 libverto-libev.x86_64
 libverto.x86_64
 libX11-common.noarch
@@ -357,6 +359,7 @@ libXt.x86_64
 libyaml.x86_64
 libzstd.x86_64
 linux-firmware.noarch
+linux-firmware-whence.noarch
 lmdb-libs.x86_64
 lm_sensors-libs.x86_64
 logrotate.x86_64
