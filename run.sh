@@ -66,10 +66,10 @@ function build() {
   VER=${1:-9.6}
   SRC_VER=${2:-3.0.0}
 
-  podman build -t docker.io/jijisa/burrito-isobuilder .
+  podman build -t docker.io/jijisa/burrito-isobuilder:camellia .
   podman run --privileged -v $(pwd)/output:/output --rm \
 	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
-    docker.io/jijisa/burrito-isobuilder ${VER} ${SRC_VER}
+    docker.io/jijisa/burrito-isobuilder:camellia ${VER} ${SRC_VER}
 }
 
 function run() {
@@ -80,12 +80,12 @@ function run() {
   check_env
   VER=${1:-9.6}
   SRC_VER=${2:-3.0.0}
-  podman build -t docker.io/jijisa/burrito-isobuilder \
+  podman build -t docker.io/jijisa/burrito-isobuilder:camellia \
     --build-arg=FROM=docker.io/rockylinux/rockylinux:${VER} .
   podman run -it --privileged -v $(pwd)/output:/output --rm \
 	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
     --entrypoint=/bin/bash \
-    docker.io/jijisa/burrito-isobuilder
+    docker.io/jijisa/burrito-isobuilder:camellia
 }
 function USAGE() {
   echo "USAGE: $0 [-h|-e|-b|-r] [options]" 1>&2
