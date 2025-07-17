@@ -119,6 +119,8 @@ glib2.x86_64
 glibc-all-langpacks.x86_64
 glibc-common.x86_64
 glibc-gconv-extra.x86_64
+glibc-langpack-en.x86_64
+glibc-langpack-ko.x86_64
 glibc.x86_64
 gmp.x86_64
 gnupg2-smime.x86_64
