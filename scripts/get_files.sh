@@ -47,7 +47,8 @@ fi
 rm -rf "${OFFLINE_FILES_DIR}"
 mkdir -p "${OFFLINE_FILES_DIR}"
 
-wget -x -P "${OFFLINE_FILES_DIR}" -i "${FILES_LIST}"
+wget --quiet --show-progress --force-directories \
+  --directory-prefix="${OFFLINE_FILES_DIR}" --input-file="${FILES_LIST}"
 
 # copy ${DIST_DIR}/burrito/scripts/kubelet-csr-approver-index.yaml to
 # ${OFFLINE_FILES_DIR}/postfinance.github.io/kubelet-csr-approver/index.yaml
