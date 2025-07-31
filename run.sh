@@ -60,10 +60,10 @@ function build() {
   VER=${1:-8.9}
   SRC_VER=${2:-1.3.1}
 
-  podman build -t docker.io/jijisa/burrito-isobuilder .
+  podman build -t docker.io/jijisa/burrito-isobuilder:aster .
   podman run --privileged -v $(pwd)/output:/output --rm \
 	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
-    docker.io/jijisa/burrito-isobuilder ${VER} ${SRC_VER}
+    docker.io/jijisa/burrito-isobuilder:aster ${VER} ${SRC_VER}
 }
 
 function run() {
@@ -71,11 +71,11 @@ function run() {
     setup_env
   fi
   . ${ENVFILE}
-  podman build -t docker.io/jijisa/burrito-isobuilder .
+  podman build -t docker.io/jijisa/burrito-isobuilder:aster .
   podman run -it --privileged -v $(pwd)/output:/output --rm \
 	$(for e in $(cat .env);do echo -n "--env=${e} ";done) \
     --entrypoint=/bin/bash \
-    docker.io/jijisa/burrito-isobuilder
+    docker.io/jijisa/burrito-isobuilder:aster
 }
 function USAGE() {
   echo "USAGE: $0 [-h|-e|-b|-r] [options]" 1>&2
