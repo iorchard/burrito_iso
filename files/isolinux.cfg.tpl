@@ -8,7 +8,7 @@ display boot.msg
 # the menu itself for as long as the screen remains in graphics mode.
 menu clear
 menu background splash.png
-menu title Burrito Rocky Linux 9.5
+menu title Burrito Rocky Linux %%VER%%
 menu vshift 8
 menu rows 18
 menu margin 8
@@ -59,7 +59,7 @@ menu separator # insert an empty line
 menu separator # insert an empty line
 
 label linux
-  menu label ^Install Burrito (Rocky Linux 9.5)
+  menu label ^Install Burrito (Rocky Linux %%VER%%)
   kernel vmlinuz
   append initrd=initrd.img inst.ks=hd:LABEL=%%LABEL%% inst.stage2=hd:LABEL=%%LABEL%% quiet
 
@@ -71,10 +71,10 @@ menu begin ^Troubleshooting
 
 label text
   menu indent count 5
-  menu label Install Rocky Linux 8 in ^basic graphics mode
+  menu label Install Rocky Linux 9 in ^basic graphics mode
   text help
 	Try this option out if you're having trouble installing
-	Rocky Linux 9.5.
+	Rocky Linux %%VER%%.
   endtext
   kernel vmlinuz
   append initrd=initrd.img inst.stage2=hd:LABEL=%%LABEL%% inst.text quiet

@@ -46,9 +46,9 @@ find ${WORKSPACE}/iso -type d | xargs chmod 0755
 cp ${WORKSPACE}/files/.treeinfo ${WORKSPACE}/iso/
 
 # overwrite isolinux.cfg and grub.cfg with custom LABEL
-sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/isolinux.cfg.tpl > \
+sed "s#%%LABEL%%#${LABEL}#g;s#%%VER%%#${VER}#g" ${WORKSPACE}/files/isolinux.cfg.tpl > \
     ${WORKSPACE}/iso/isolinux/isolinux.cfg
-sed "s/%%LABEL%%/${LABEL}/g" ${WORKSPACE}/files/grub.cfg.tpl > \
+sed "s#%%LABEL%%#${LABEL}#g;s#%%VER%%#${VER}#g" ${WORKSPACE}/files/grub.cfg.tpl > \
     ${WORKSPACE}/iso/EFI/BOOT/grub.cfg
 # create ks.cfg with custom root and clex password
 sed "s#%%ROOTPW_ENC%%#${ROOTPW_ENC}#g;s#%%UNAME%%#${UNAME}#g;s#%%USERPW_ENC%%#${USERPW_ENC}#g;s#%%LABEL%%#${LABEL}#g" \
